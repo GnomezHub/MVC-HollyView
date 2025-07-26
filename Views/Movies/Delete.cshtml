@@ -1,0 +1,38 @@
+﻿@model MVC_Identity_Movie.Models.Movie
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+<h3>Are you sure you want to delete this?</h3>
+<hr />
+@if (User.IsInRole("Administrator"))
+{
+<div class="card h-100" style="width: 24rem;">
+      
+    @{
+        var base64 = Convert.ToBase64String(Model.File);
+        var imageSrc = $"data:image/jpeg;base64,{base64}";
+        }
+      <img src="@imageSrc" class="card-img-top cropped-img" style="max-height: 400px; object-fit:cover;" />
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Description</p>
+        <p class="card-text">Release date:@Model.ReleaseDate</p>
+    </div>
+
+    <div class="card-footer text-center">
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            <input type="submit" value="Delete" class="btn btn-danger" /> 
+    </form>
+    </div>
+    </div>
+}
+else
+{
+    <partial name="_accesDenied" />
+}

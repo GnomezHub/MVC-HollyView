@@ -1,0 +1,26 @@
+﻿@model IEnumerable<MVC_Identity_Movie.Models.Movie>
+
+<div class="row row-cols-1 row-cols-md-5 g-4">
+    @foreach (var item in Model)
+    {
+        DateOnly releaseDate = default;
+        if (item != null && item.ReleaseDate != DateTime.MinValue)
+        {
+            releaseDate = DateOnly.FromDateTime(item.ReleaseDate);
+        }
+
+        var base64Poster = item.File != null ? Convert.ToBase64String(item.File) : "";
+
+        <div class="col">
+            <div class="card h-100">
+                <img src="data:image/jpeg;base64,@base64Poster" alt="Poster" class="card-img-top img-fluid" style="max-height: 400px; object-fit: cover;" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text">Release date:@releaseDate</p>
+                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">READ MORE</a>
+                </div>           
+            </div>
+        </div>
+    }
+</div>

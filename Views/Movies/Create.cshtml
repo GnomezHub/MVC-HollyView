@@ -1,0 +1,92 @@
+﻿@model MVC_Identity_Movie.Models.Movie
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Movie</h4>
+<hr />
+
+ @if (User.IsInRole("Administrator"))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Director" class="control-label"></label>
+                    <input asp-for="Director" class="form-control" />
+                    <span asp-validation-for="Director" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReleaseDate" class="control-label"></label>
+                    <input asp-for="ReleaseDate" class="form-control" />
+                    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Genre" class="control-label"></label>
+                    <input asp-for="Genre" class="form-control" />
+                    <span asp-validation-for="Genre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rating" class="control-label"></label>
+                    <input asp-for="Rating" class="form-control" />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FileName" class="control-label"></label>
+                    <input type="file" asp-for="FileName" name="FileForm" onchange="showImage(this)" class="form-control" />
+                    <span asp-validation-for="FileName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="File" class="control-label"></label>
+                    @* <input asp-for="File" class="form-control" /> *@
+                    <img id="moviePoster" alt="Poster" style="max-width:400px;" />
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}else
+{
+    <partial name="_accesDenied" />
+}
+
+
+
+@section Scripts {
+    <script>
+        function showImage(data){
+            const image = document.getElementById('moviePoster');
+            const reader = new FileReader();
+            const file = data.files[0];
+
+            reader.addEventListener("load", function(){
+                image.src = reader.result;
+            },false);
+
+            reader.readAsDataURL(file);
+        }
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

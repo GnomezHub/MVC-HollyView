@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* För att förhindra scrollning av bakgrundsbilden */
+    }
+
+    .background-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('images/hollyviewbg.jpg'); 
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.4); /* Gör bakgrunden mörkare för bättre textkontrast */
+        z-index: -1; /* Placera bakgrunden bakom innehållet */
+    }
+
+    .content-container {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Fyll hela viewport-höjden */
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+    /* Anpassade stilar för att matcha den ursprungliga designen med Bootstrap */
+    .hollyview-title {
+        font-size: 4rem; /* Storlek för "HollyView" */
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Lägg till skugga för bättre läsbarhet */
+    }
+
+    .hollyview-subtitle {
+        font-size: 1.5rem; /* Storlek för undertiteln */
+        font-weight: 400;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    .hollyview-button {
+        border-radius: 50px; /* Rundade hörn för knappen */
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    
+</style>
+<!-- Bakgrundsbild med mörkare filter -->
+<div class="background-container"></div>
+
+<!-- Huvudinnehåll centrerat med Bootstrap-klasser -->
+<div class="content-container container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h1 class="text-light hollyview-title">HollyView</h1>
+            <p class="text-light hollyview-subtitle">The Action has just begun</p>
+            <a class="btn btn-outline-light hollyview-button" asp-area="" asp-controller="Movies" asp-action="Index">EXPLORE THE ACTION</a>
+        </div>
+    </div>
+</div>
