@@ -1,18 +1,29 @@
 ﻿@model IEnumerable<MVC_Identity_Movie.Models.Movie>
 
-<div class="row row-cols-1 row-cols-md-5 g-4">
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
     @foreach (var item in Model)
     {
 
         var base64Poster = item.File != null ? Convert.ToBase64String(item.File) : "";
         <div class="col">
             <div class="card h-100">
-                <img src="data:image/jpeg;base64,@base64Poster" alt="Poster" class="card-img-top img-fluid" style="max-height: 400px; object-fit: cover;" />
+                @* <img src="data:image/jpeg;base64,@base64Poster" alt="Poster" class="card-img-top img-fluid"  /> *@
+                <img src="data:image/jpeg;base64,@base64Poster" alt="Poster" class="card-img-top img-fluid" style="max-height: 300px; object-fit: cover;" />
+
                 <div class="card-body">
-                    <h5 class="card-title">@item.Title</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text">Release date:@item.ReleaseDate</p>
-                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">READ MORE</a>
+                    <h5 class="card-title fw-bold">@item.Title</h5>
+                    @{
+                        int maxLength = 80; 
+                        string truncatedDescription = item.Description;
+                        if (!string.IsNullOrEmpty(item.Description) && item.Description.Length > maxLength)
+                        {
+                            truncatedDescription = item.Description.Substring(0, maxLength) + "...";
+                        }
+                    }
+                    <p class="card-text">@truncatedDescription</p>
+                    <p class="card-text text-end">Release date: @item.ReleaseDate</p>
+                    <hr />
+                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary mx-4">READ MORE</a>
                 </div>           
             </div>
         </div>
