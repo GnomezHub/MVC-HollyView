@@ -10,7 +10,7 @@
     <div class="row g-0">
         <div class="col-md-4">
                 @{
-                DateOnly releaseDate = Model.ReleaseDate != DateTime.MinValue ? DateOnly.FromDateTime(Model.ReleaseDate) : default;
+              //  DateOnly releaseDate = Model.ReleaseDate != DateTime.MinValue ? DateOnly.FromDateTime(Model.ReleaseDate) : default;
                    var base64 = Model.File != null ? Convert.ToBase64String(Model.File) : "";
                    var imageSrc = $"data:image/jpeg;base64,{base64}";
                 }
@@ -20,7 +20,7 @@
             <div class="card-body">
                 <h5 class="card-title text-center">@Model.Title</h5>
                 <p class="card-text"><small class="text-muted">Description:</small><br /> @Model.Description</p>               
-                <p class="card-text"><small class="text-muted">Release date:</small><br /> @releaseDate</p>
+                <p class="card-text"><small class="text-muted">Release date:</small><br /> @Model.ReleaseDate</p>
                 <p class="card-text"><small class="text-muted">Genre:</small><br /> @Model.Genre</p>
                 <p class="card-text"><small class="text-muted">Director:</small><br /> @Model.Director</p>
                 <p class="card-text"><small class="text-muted">Rating:</small><br /> @Model.Rating</p>

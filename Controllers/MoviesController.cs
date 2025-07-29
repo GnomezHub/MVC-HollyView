@@ -12,9 +12,10 @@ using System.Threading.Tasks;
 
 namespace MVC_Identity_Movie.Controllers
 {
-
+    [Authorize]
     public class MoviesController : Controller
     {
+
         private readonly ApplicationDbContext _context;
 
         public MoviesController(ApplicationDbContext context)
@@ -23,14 +24,15 @@ namespace MVC_Identity_Movie.Controllers
         }
 
         // GET: Movies
-      
+   
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             // return View(await _context.Movie.ToListAsync());
             return View();
         }
 
-
+        [AllowAnonymous]
         public async Task<IActionResult> Search(string search)
         {
             if (string.IsNullOrEmpty(search))
@@ -45,7 +47,7 @@ namespace MVC_Identity_Movie.Controllers
         }
 
 
-
+        [AllowAnonymous]
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -66,7 +68,7 @@ namespace MVC_Identity_Movie.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrator")]
         // GET: Movies/Create
         public IActionResult Create()
         {
@@ -74,27 +76,6 @@ namespace MVC_Identity_Movie.Controllers
         }
 
 
-
-
-        /*        public async Task<IActionResult> Create([Bind("Id,Brand,Model,Year,FileName,FileForm")] Car car)
-        {
-            if (car.FileForm != null)
-            {
-                var memoryStream = new MemoryStream();
-                car.FileForm.CopyTo(memoryStream);
-                car.FileName = car.FileForm.FileName;
-                car.File = memoryStream.ToArray();
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Add(car);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(car);
-        }
-
-        */
         // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -120,6 +101,8 @@ namespace MVC_Identity_Movie.Controllers
             return View(movie);
         }
 
+        [Authorize]
+      
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -147,13 +130,27 @@ namespace MVC_Identity_Movie.Controllers
             {
                 return NotFound();
             }
+
+            var existingMovie = await _context.Movie.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
+            if (existingMovie == null)
+            {
+                return NotFound();
+            }
+
             if (movie.FileForm != null)
             {
-                var memoryStream = new MemoryStream();
+                using var memoryStream = new MemoryStream();
                 movie.FileForm.CopyTo(memoryStream);
                 movie.FileName = movie.FileForm.FileName;
                 movie.File = memoryStream.ToArray();
             }
+            else
+            {
+                // Retain the existing file data from the database
+                movie.FileName = existingMovie.FileName;
+                movie.File = existingMovie.File;
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -172,11 +169,12 @@ namespace MVC_Identity_Movie.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = movie.Id });
             }
             return View(movie);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
