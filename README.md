@@ -39,10 +39,13 @@ MVC HollyView is a small showcase project built with ASP.NET Core and C#. It dem
    git clone https://github.com/GnomezHub/MVC-HollyView.git
 
 Movie list:
+
 <img width="1365" height="839" alt="movies_list" src="https://github.com/user-attachments/assets/d20e9883-8826-4acd-b3d3-b784a77c586d" />
 
 Movie details:
-<img width="964" height="863" alt="movies_details" src="https://github.com/user-attachments/assets/23e4135b-d1c1-42dc-8f50-e00c1784c908" />
+
+<img width="964" height="832" alt="movies_details" src="https://github.com/user-attachments/assets/1861a9a5-04c5-491a-816e-64cd521b2d78" />
+
 
 Acces denied:
 
